@@ -45,15 +45,12 @@ export default class App extends React.Component<AppProps, AppState> {
   click = async () => {
     try {
       await Excel.run(async context => {
-        /**
-         * Insert your Excel code here
-         */
+       
         const range = context.workbook.getSelectedRange();
-
-        // Read the range address
+        
         range.load("address");
 
-        // Update the fill color
+        
         range.format.fill.color = "yellow";
 
         await context.sync();
@@ -72,10 +69,7 @@ export default class App extends React.Component<AppProps, AppState> {
         const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
         const expensesTable = currentWorksheet.tables.add("A1:D1", true /*hasHeaders*/);
         expensesTable.name = "ExpensesTable"
-        //const range = context.workbook.getSelectedRange();
-
-        // Read the range address
-        //range.load("address");
+        
         expensesTable.getHeaderRowRange().values = [["Date", "Merchant", "Category", "Amount"]]
         expensesTable.rows.add(null /*add at the end*/, [
           ["1/1/2017", "The Phone Company", "Communications", "120"],
@@ -86,8 +80,7 @@ export default class App extends React.Component<AppProps, AppState> {
           ["1/15/2017", "Trey Research", "Other", "135"],
           ["1/15/2017", "Best For You Organics Company", "Groceries", "97.88"]
           ]);
-        // Update the fill color
-        // range.format.fill.color = "yellow";
+        
         expensesTable.columns.getItemAt(3).getRange().numberFormat = [['€#,##0.00']];
         expensesTable.getRange().format.autofitColumns();
         expensesTable.getRange().format.autofitRows();  
@@ -102,9 +95,7 @@ export default class App extends React.Component<AppProps, AppState> {
   filterTable = async () => {
     try {
       await Excel.run(async context => {
-        /**
-         * Insert your Excel code here
-         */
+       
         const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
         const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
         const categoryFilter = expensesTable.columns.getItem('Category').filter;
@@ -120,9 +111,7 @@ export default class App extends React.Component<AppProps, AppState> {
   sortTable = async () => {
     try {
       await Excel.run(async context => {
-        /**
-         * Insert your Excel code here
-         */
+      
         const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
         const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
         const sortFields = [
@@ -133,15 +122,7 @@ export default class App extends React.Component<AppProps, AppState> {
         ];
 
         expensesTable.sort.apply(sortFields);
-        //const range = context.workbook.getSelectedRange();
-
-        // Read the range address
-        //range.load("address");
-        
-
-        // Update the fill color
-        // range.format.fill.color = "yellow";
-        
+             
         await context.sync();        
       });
     } catch (error) {
@@ -151,19 +132,13 @@ export default class App extends React.Component<AppProps, AppState> {
   createChart = async () => {
     try {
       await Excel.run(async context => {
-        /**
-         * Insert your Excel code here
-         */
+       
         const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
         const expensesTable = currentWorksheet.tables.getItem('ExpensesTable');
         const dataRange = expensesTable.getDataBodyRange();
-        //const range = context.workbook.getSelectedRange();
-
-        // Read the range address
-        //range.load("address");
+        
         const chart = currentWorksheet.charts.add('ColumnClustered', dataRange, "Auto");
-
-        // Update the fill color
+        
         chart.setPosition("A15", "F30");
         chart.title.text = "Expenses";
         chart.legend.position = "Right"
@@ -171,8 +146,7 @@ export default class App extends React.Component<AppProps, AppState> {
         chart.dataLabels.format.font.size = 15;
         chart.dataLabels.format.font.color = "black";
         chart.series.getItemAt(0).name = 'Value in €';
-        // range.format.fill.color = "yellow";
-        
+                
         await context.sync();        
       });
     } catch (error) {
@@ -182,19 +156,9 @@ export default class App extends React.Component<AppProps, AppState> {
   freezeHeader = async () => {
     try {
       await Excel.run(async context => {
-        /**
-         * Insert your Excel code here
-         */
+       
         const currentWorksheet = context.workbook.worksheets.getActiveWorksheet();
         currentWorksheet.freezePanes.freezeRows(1);
-        //const range = context.workbook.getSelectedRange();
-
-        // Read the range address
-        //range.load("address");
-        
-
-        // Update the fill color
-        // range.format.fill.color = "yellow";
         
         await context.sync();        
       });
